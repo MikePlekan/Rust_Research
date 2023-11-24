@@ -3,21 +3,50 @@
  *
  * Author: Michael Plekan
  */
+//create a struct for the Field
 
+//derive traits for the struct debug, clone, and copy
+#[derive(Debug, Clone, Copy)]
+struct Field {
+    value: f64,
+    permanent: bool,
+}
+//create an enum for the start type
+enum Start {
+    Boundary,//all edges are 1
+    Diagonal,//diagonal is 1
+    Random,//random points are 1
+}
+
+fn jacobi_row(id:usize,size:usize, row: &mut Vec<Field>, matrix: & Vec<Vec<Field>>) {
+    //iterate through the row with the index equal to the id
+    for (c,f) in row.iter_mut().enumerate() {
+        //check if the field is permanent
+        if !f.permanent{
+            //set the value to the average of the surrounding fields
+            f.value = (matrix[id][c].value +
+                        if id+1 < size {matrix[id+1][c].value} else {0.0} +
+                        if id > 0 {matrix[id-1][c].value} else {0.0} +
+                        if c+1 < size {matrix[id][c+1].value} else {0.0} +
+                        if c > 0 {matrix[id][c-1].value} else {0.0}) / 5.0;
+        }       
+    }
+}
+//macro to print the matrix to stdout, parameter is the matrix
+macro_rules! print_matrix {
+    ($matrix:expr) => {
+        println!();
+        for row in $matrix.iter() {
+            print!("| ");
+            for field in row.iter() {
+                print!("{:.2} | ", field.value);
+            }
+            println!();
+        }
+        println!();
+    };
+}
 fn main() {
-    //create a struct for the Field
-    #[derive(Debug)]//for printing
-    #[derive(Clone)]//for copying
-    struct Field {
-        value: f64,
-        permanent: bool,
-    }
-    //create an enum for the start type
-    enum Start {
-        Boundary,//all edges are 1
-        Diagonal,//diagonal is 1
-        Random,//random points are 1
-    }
     use Start::*;
     let args: Vec<String> = std::env::args().collect();
     let size: usize;
@@ -30,9 +59,9 @@ fn main() {
         3 => {
             size = args[1].parse().unwrap();
             start = match args[2].as_str() {
-                "boundary" => Boundary,
-                "diagonal" => Diagonal,
-                "random" => Random,
+                "boundary"|"b" => Boundary,
+                "diagonal"|"d" => Diagonal,
+                "random"|"r" => Random,
                 _ => {
                     panic!("Usage: jacobi <size> <start type>");
                 }
@@ -74,15 +103,27 @@ fn main() {
         Random => {
             use rand::Rng;
             let mut rng = rand::thread_rng();
-            for (x,y) in (0..size).zip(0..size) {
-                if rng.gen() {
-                    set!(x, y);
+            for i in 0..size {
+                for j in 0..size {
+                    if rng.gen() {
+                        set!(i, j);
+                    }
                 }
             }
         },
     }
-    //iterate until the matrix is stable
-    //TODO: add a max iteration count
-    //TODO: add a check for a stable matrix
+    //print the matrix
+    print_matrix!(matrix1);
+    //run 100 iterations of the jacobi method on the matrix going from matrix1 to matrix2 then matrix2 to matrix1
+    for _ in 0..100 {
+        for (id, row) in matrix1.iter_mut().enumerate() {
+            jacobi_row(id,size, row, &matrix2)
+        }
+        for (id, row) in matrix2.iter_mut().enumerate() {
+            jacobi_row(id,size, row, &matrix1)
+        }
+    }
+    //print the matrix
+    print_matrix!(matrix1);
 
 }
