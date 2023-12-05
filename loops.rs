@@ -19,4 +19,13 @@ fn main() {
     }
     println!("Exited the outer loop");
     println!("X is {}",x);
+    println!("Looping through powers of 2 until greater than 127");
+    let mut i = 2;
+    let solution:i32 = loop{
+        if i >127 {
+            break i;
+        }
+        i*=2;
+    };
+    println!("Solution is {}",solution);
 }
