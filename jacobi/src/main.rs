@@ -63,13 +63,15 @@ fn main() {
                 "diagonal"|"d" => Diagonal,
                 "random"|"r" => Random,
                 _ => {
-                    panic!("Usage: jacobi <size> <start type>");
+                    eprintln!("Usage: jacobi <size> <start type>");
+                    std::process::exit(1);
                 }
             }
         },
         2 => size = args[1].parse().unwrap(),
         _ => {
-            panic!("Usage: jacobi <size> <start type>");
+            eprintln!("Usage: jacobi <size> <start type>");
+            std::process::exit(1);
         }
     }
     
