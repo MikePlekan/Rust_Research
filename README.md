@@ -3,7 +3,9 @@ Michael Plekan
 
 Project page: https://courses.teresco.org/cs340_f23/probsets/termproj/
 
-Draft: https://docs.google.com/document/d/1IFTUXbhrV4I2fJl2aWWKshMtEPZIt-VUjhRziwXPZsI/edit?usp=sharing 
+Paper: https://docs.google.com/document/d/1IFTUXbhrV4I2fJl2aWWKshMtEPZIt-VUjhRziwXPZsI/edit?usp=sharing 
+
+Presentation: https://docs.google.com/presentation/d/13bp8OMJdYriOYB1KB2xOGmCxlM1ON5g9NMNYLsr0HG8/edit?usp=sharing 
 
 Sources for learning/writing the code:
 

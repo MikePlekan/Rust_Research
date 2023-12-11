@@ -4,6 +4,13 @@ fn main(){
 
     print_sum(13, 37);
     
+    //function that returns the sum of 2 numbers
+    fn sum(x: i32, y: i32) -> i32 {
+        x + y
+    }
+
+    println!("Sum: {}", sum(10, 20));
+
     //function prints out the first n number of fibonacci numbers
     fn fibonacci(n: i32){
         let mut a = 0;
